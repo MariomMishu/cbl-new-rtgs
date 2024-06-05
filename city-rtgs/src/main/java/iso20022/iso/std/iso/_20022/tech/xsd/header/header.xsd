@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Header">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Message">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SenderReference" type="xs:string"/>
+                            <xs:element name="MessageIdentifier" type="xs:string"/>
+                            <xs:element name="Format" type="xs:string"/>
+                            <xs:element name="Sender">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="BIC12" type="xs:string"/>
+                                        <xs:element name="FullName">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="X1" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Receiver">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="BIC12" type="xs:string"/>
+                                        <xs:element name="FullName">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="X1" type="xs:string"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="InterfaceInfo">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="UserReference" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="NetworkInfo">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Priority" type="xs:string"/>
+                                        <xs:element name="Network" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

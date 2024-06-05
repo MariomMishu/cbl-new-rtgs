@@ -1,0 +1,56 @@
+server:
+  port: 8085
+#====================Start Database Config=======================================
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.200.136:1521/NUTEST
+    username: CBLRTGS_BKP
+    password: City12345
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+        jdbc:
+          time_zone: GMT+6
+#======================End Database Config======================================
+#====================== Start App Config========================================
+app:
+  access:
+    token:
+      expire:
+        time: 30
+  forget:
+    password:
+      email:
+        url: http://10.10.114.134:8443/reset-password
+  core:
+    stp:
+      url: http://192.168.246.80:8000/GWClientSAService/GWClientSA/
+    stpg:
+      ip: 192.168.246.80
+      port: 8000
+#====================== End App Config==========================================
+#======================Start Soap Config =======================================
+soap:
+  service:
+    #username: rtgsnew
+    #password: Cbl@194rtgs
+    username: gs001
+    password: 1234
+  config:
+    api:
+      url: http://192.168.220.53:8080/axis2/services/CBLWebServices?wsdl
+    fi:
+      api:
+        url: http://192.168.220.53:8080/axis2/services/CBLFIWebServices?wsdl
+#======================End Soap Config =========================================
+#======================Start STP Config ========================================
+#======================End STP Config ===========================================
+###########################################Application log########################
+logging:
+  config: classpath:logback/logback-uat.xml

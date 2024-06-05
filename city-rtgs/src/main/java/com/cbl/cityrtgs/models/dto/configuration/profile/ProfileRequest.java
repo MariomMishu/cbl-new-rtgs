@@ -1,0 +1,20 @@
+package com.cbl.cityrtgs.models.dto.configuration.profile;
+
+import lombok.*;
+import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
+
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+public class ProfileRequest {
+
+    @NotBlank(message = "Name can't be empty")
+    private String name;
+
+}

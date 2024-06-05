@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <!-- use Spring default values -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <property name="CONSOLE_LOG_LEVEL_PATTERN"
+              value="%clr(%5p) %clr([${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} [remoteIP:%X{RemoteIP:--}]"/>
+    <property name="LOG_LEVEL_PATTERN"
+              value="%5p [${springAppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] [remoteIP:%X{RemoteIP:--}]"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${CONSOLE_LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="DEFAULT_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="LOG_BASE_DIR" value="logs/rtgs/"/>
+    <property name="DEFAULT_LOG_BASE" value="${LOG_BASE_DIR}/application"/>
+    <property name="TRACE_LOG_BASE" value="${LOG_BASE_DIR}/trace"/>
+    <property name="ERROR_LOG_BASE" value="${LOG_BASE_DIR}/error"/>
+    <property name="PERFORMANCE_LOG_BASE" value="${LOG_BASE_DIR}/performance"/>
+    <property name="LOG_DATE_FORMAT" value="yyyy-MM-dd/HH:mm:ss.SSS/zzz"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n"/>
+    <timestamp key="LOG_MONTHLY_DIR_PATTERN" datePattern="yyyy-MM"/>
+    <!--    console log-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+        <!--            &lt;!&ndash; Minimum logging level to be presented in the console logs&ndash;&gt;-->
+        <!--            <level>DEBUG</level>-->
+        <!--        </filter>-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--    default log-->
+    <appender name="defaultLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DEFAULT_LOG_BASE}/application.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${DEFAULT_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${DEFAULT_LOG_BASE}/application-${LOG_MONTHLY_DIR_PATTERN}/application.log.%d{yyyy-MM-dd}.xz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <!--    Start Appender Config -->
+    <!--    Start RTGS -->
+    <appender name="rtgsTraceLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${TRACE_LOG_BASE}/trace.log</file>
+        <!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.cbl.cityrtgs.common.patterns.MaskingPatternLayout">
+                <maskPattern>\"cardNumber\"\s*:\s*\"(.*?)\"</maskPattern>
+                <pattern>${DEFAULT_LOG_PATTERN}</pattern>
+                <!--                <charset>utf8</charset>-->
+            </layout>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>
+                ${TRACE_LOG_BASE}/trace-${LOG_MONTHLY_DIR_PATTERN}/trace.log.%d{yyyy-MM-dd}.xz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="rtgsErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ERROR_LOG_BASE}/error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${DEFAULT_LOG_PATTERN}</Pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>
+                ${ERROR_LOG_BASE}/error-${LOG_MONTHLY_DIR_PATTERN}/error.log.%d{yyyy-MM-dd}.xz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <!--    End RTGS -->
+    <!--    Start STP -->
+    <appender name="stpTraceLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${TRACE_LOG_BASE}/stp/trace.log</file>
+        <!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="com.cbl.cityrtgs.common.patterns.MaskingPatternLayout">
+                <maskPattern>\"cardNumber\"\s*:\s*\"(.*?)\"</maskPattern>
+                <pattern>${DEFAULT_LOG_PATTERN}</pattern>
+                <!--                <charset>utf8</charset>-->
+            </layout>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>
+                ${TRACE_LOG_BASE}/stp/trace-${LOG_MONTHLY_DIR_PATTERN}/trace.log.%d{yyyy-MM-dd}.xz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="stpErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ERROR_LOG_BASE}/stp/error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${DEFAULT_LOG_PATTERN}</Pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>
+                ${ERROR_LOG_BASE}/stp/error-${LOG_MONTHLY_DIR_PATTERN}/error.log.%d{yyyy-MM-dd}.xz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <!--    End STP -->
+    <!--    End Appender Config -->
+
+    <!--  Start  Logger Config-->
+    <root level="WARN,INFO,ERROR">
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="defaultLog"/>
+    </root>
+    <!--    Start RTGS logger config     -->
+    <logger name="rtgsTraceLogger" level="TRACE" additivity="false">
+        <appender-ref ref="rtgsTraceLog"/>
+    </logger>
+    <logger name="rtgsErrorLogger" level="ERROR" additivity="false">
+        <appender-ref ref="rtgsErrorLog"/>
+    </logger>
+    <!--    End RTGS logger config     -->
+    <!--    Start STP logger config     -->
+    <logger name="stpTraceLogger" level="TRACE" additivity="false">
+        <appender-ref ref="stpTraceLog"/>
+    </logger>
+    <logger name="stpErrorLogger" level="ERROR" additivity="false">
+        <appender-ref ref="stpErrorLog"/>
+    </logger>
+    <!--    End STP logger config     -->
+    <!--        Configure Spring Logger-->
+    <Logger name="org.apache" level="WARN,ERROR" additivity="false">
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="defaultLog"/>
+    </Logger>
+    <Logger name="org.springframework" level="WARN,ERROR" additivity="false">
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="defaultLog"/>
+    </Logger>
+
+</configuration>

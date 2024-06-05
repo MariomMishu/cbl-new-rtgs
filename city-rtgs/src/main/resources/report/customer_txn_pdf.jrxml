@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CustToCustTxnReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb753213-4631-4f93-8552-656ca3240ff4">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="458"/>
+	<property name="ireport.y" value="192"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="9c184a0e-8431-4e05-ab24-b08b11659355"/>
+	<subDataset name="Table Dataset 1" uuid="68def4b2-4468-4985-9db3-c172b265c517"/>
+	<parameter name="bankName" class="java.lang.String"/>
+	<parameter name="branchName" class="java.lang.String"/>
+	<parameter name="currentDate" class="java.lang.String"/>
+	<parameter name="currencyParam" class="java.lang.String"/>
+	<parameter name="routingType" class="java.lang.String"/>
+	<parameter name="fromDate" class="java.lang.String"/>
+	<parameter name="toDate" class="java.lang.String"/>
+	<parameter name="isReportByGroup" class="java.lang.Boolean"/>
+	<parameter name="fundTransferType" class="java.lang.String"/>
+	<parameter name="dept" class="java.lang.String"/>
+	<field name="payerAccNo" class="java.lang.String"/>
+	<field name="beneficiaryName" class="java.lang.String"/>
+	<field name="beneficiaryBank" class="java.lang.String"/>
+	<field name="beneficiaryBranch" class="java.lang.String"/>
+	<field name="txnDate" class="java.util.Date"/>
+	<field name="reference" class="java.lang.String"/>
+	<field name="txnStatus" class="java.lang.String"/>
+	<field name="amount" class="java.math.BigDecimal"/>
+	<field name="currency" class="java.lang.String"/>
+	<field name="payerName" class="java.lang.String"/>
+	<field name="payerBank" class="java.lang.String"/>
+	<field name="payerBranch" class="java.lang.String"/>
+	<field name="beneficiaryAccNo" class="java.lang.String"/>
+	<field name="voucher" class="java.lang.String"/>
+	<field name="narration" class="java.lang.String"/>
+	<field name="lcNumber" class="java.lang.String"/>
+	<variable name="totalAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="beneficiaryBankNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="BeneficiaryBankGroup" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<variable name="payeeBankNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="PayerBankGroup" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	</variable>
+	<group name="BeneficiaryBankGroup" keepTogether="true">
+		<groupExpression><![CDATA[$F{beneficiaryBank}]]></groupExpression>
+		<groupHeader>
+			<band height="18" splitType="Prevent">
+				<printWhenExpression><![CDATA[( ($P{isReportByGroup}.booleanValue()==true)
+    && ($P{routingType}.toString()=="Outgoing") ) ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				<textField evaluationTime="Group" evaluationGroup="BeneficiaryBankGroup" bookmarkLevel="1">
+					<reportElement mode="Opaque" x="0" y="3" width="555" height="15" uuid="f90af4fc-7795-426d-9f09-b0ae0aadcc2c"/>
+					<box leftPadding="10">
+						<bottomPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="1"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf($V{beneficiaryBankNumber}) + ". "
+                  + String.valueOf($F{beneficiaryBank})]]></textFieldExpression>
+					<anchorNameExpression><![CDATA[String.valueOf($F{beneficiaryBank})]]></anchorNameExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<printWhenExpression><![CDATA[($P{isReportByGroup}.booleanValue() == true) ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="PayerBankGroup">
+		<groupExpression><![CDATA[$F{payerBank}]]></groupExpression>
+		<groupHeader>
+			<band height="17" splitType="Prevent">
+				<printWhenExpression><![CDATA[( ($P{isReportByGroup}.booleanValue()==true)
+    && ($P{routingType}.toString()=="Incoming") ) ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				<textField evaluationTime="Group" evaluationGroup="PayerBankGroup" bookmarkLevel="1">
+					<reportElement mode="Opaque" x="0" y="2" width="555" height="15" uuid="610e49c6-c2bb-4231-a92f-1a48c9a4190a"/>
+					<box leftPadding="10">
+						<bottomPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+						<paragraph leftIndent="1"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf($V{payeeBankNumber}) + ". "
+                  + String.valueOf($F{payerBank})]]></textFieldExpression>
+					<anchorNameExpression><![CDATA[String.valueOf($F{beneficiaryBank})]]></anchorNameExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<printWhenExpression><![CDATA[($P{isReportByGroup}.booleanValue() == true) ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="117" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="802" height="26" uuid="c6889733-8017-40e5-be0f-f6445226e82f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bankName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="662" y="57" width="140" height="12" uuid="f626fda2-016e-438a-b12e-8ce582600365"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currentDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="560" y="57" width="96" height="12" uuid="cc21d33d-282c-4eb8-ad72-3a9e88c317e9"/>
+				<textElement textAlignment="Left">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generation Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="93" width="96" height="12" uuid="595d3dc7-257b-42e8-b0da-e493fec0d52b"/>
+				<textElement textAlignment="Left">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Routing Type:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="662" y="93" width="140" height="12" uuid="1319eba2-22d0-4a7d-ae82-d5b4026be9df"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{routingType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="560" y="69" width="96" height="12" uuid="bc2cfdb4-1cb3-4649-8be7-5033aec61dc1"/>
+				<textElement textAlignment="Left">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[From Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="26" width="802" height="20" uuid="a728fcfa-449d-4406-a9c4-edbfc91f9d25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fundTransferType} + " Transactions"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="662" y="69" width="140" height="12" uuid="0ab043ca-cecc-4545-8708-e7048481d672"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="662" y="81" width="140" height="12" uuid="5ed66394-9a00-4bc8-9229-d97bb92d5332"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{toDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="560" y="81" width="96" height="12" uuid="d5c1d38f-5416-4a7c-b533-8e259f87e499"/>
+				<textElement textAlignment="Left">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="105" width="96" height="12" uuid="f7fbca49-58a8-4598-80ca-168e32275747"/>
+				<textElement textAlignment="Left">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Department:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="662" y="105" width="140" height="12" uuid="5f3b28fe-8899-4321-927d-2debcb8cf638"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dept}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="70" y="0" width="54" height="20" uuid="1869b377-4253-4150-a7d5-23cdc4d60c35">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Beneficiary A/C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="0" width="96" height="20" uuid="d537760d-8918-4fec-b15d-bb7f43982b31">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Beneficiary Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="75" height="20" uuid="ceddf45e-d80c-4d1d-b180-67903e2e80d9">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Beneficiary Bank]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="75" height="20" uuid="b3f5bb47-efa0-4dbb-84d9-d7d7758129cf">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Beneficiary Branch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="62" height="20" uuid="c2b99b80-26a7-4514-a64e-349d8cc1ce4e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="0" width="70" height="20" uuid="3fdbe93c-f976-476c-8987-2d2574285a55"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Ref. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="16" height="20" uuid="3139d692-1581-4344-a144-ccf2992755d8"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="562" y="0" width="35" height="20" uuid="7665fd43-bf1a-44e0-8adf-dfce08748b55">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="597" y="0" width="71" height="20" uuid="c5230d0d-3a77-49f9-be6f-1de69a9315bd"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="0" width="54" height="20" uuid="610b83e8-cfed-4477-a53c-3467c3e2eb06">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Payer A/C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="75" height="20" uuid="d7fc5054-12e8-4f0e-9b69-e2d2afc90992">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Payer Bank]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="0" width="75" height="20" uuid="b2195c26-c987-452a-8ca7-d93d2dde93da">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Payer Branch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="0" width="54" height="20" uuid="95102eef-4e20-4050-a14e-669ee18e016d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[To A/C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="0" width="54" height="20" uuid="e3d8881c-9019-45be-b61e-86d481357537">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[From A/C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="0" width="96" height="20" uuid="bee53c9e-2656-4e81-90db-3796b7af3658">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Payer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="0" width="60" height="20" uuid="850625e5-3a02-4eb7-b632-1d0180562c4a"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Voucher]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="668" y="0" width="82" height="20" uuid="5458b0e7-cc7a-4922-a2d0-9db75f6e6155"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Narration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="750" y="0" width="52" height="20" uuid="5cdfecfe-0982-428b-a347-e2b4d3f72ee7"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[LC Number]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField pattern="">
+				<reportElement x="0" y="0" width="16" height="20" uuid="4893a827-e66f-47d8-a461-9d4948c44253"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="0" width="54" height="20" uuid="691b21ce-07c2-4ac6-9b1d-5eeddc356489">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{payerAccNo} == null) ? "" : $F{payerAccNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="54" height="20" uuid="6852ce57-4a39-4a21-9a4c-fe73861fabf8">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiaryAccNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="0" width="96" height="20" uuid="58a98e97-c062-4a63-a00b-9f075a2c29d5">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiaryName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="75" height="20" uuid="8c994b45-6f49-43bd-bda9-df55bca13081">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiaryBank}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="75" height="20" uuid="5979cd82-341b-4ec5-9962-3f89fd7f1a73">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Outgoing") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiaryBranch}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="597" y="0" width="71" height="20" uuid="dd16b79f-3546-40f3-973a-441958c60152"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="62" height="20" uuid="84a73400-ca7e-479b-bd09-fcc6bd421c99"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txnDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="0" width="70" height="20" uuid="bc3758a2-591f-42ca-a58a-7b421d9d69b3"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reference}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="562" y="0" width="35" height="20" uuid="b8359785-16d2-4ee7-ad58-b0c1c2efcf49"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txnStatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="54" height="20" uuid="21efca69-2c21-46c7-b8fd-1234af809c95">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payerAccNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="75" height="20" uuid="31bd6f83-e07e-4a51-bec3-f022820d8f26">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payerBank}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="75" height="20" uuid="b5197a83-0b0d-4886-973f-c2659845611e">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payerBranch}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="0" width="54" height="20" uuid="9b96c32d-ae63-4974-8a24-c6fb7dd3400b">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{beneficiaryAccNo} == null) ? "" : $F{beneficiaryAccNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="0" width="96" height="20" uuid="29e670f0-fa3b-4486-8917-098138350daf">
+					<printWhenExpression><![CDATA[$P{routingType}.equals("Incoming") ? new Boolean(true) : new Boolean(false)]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payerName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="502" y="0" width="60" height="20" uuid="38c682eb-a0c7-436b-b0ba-4f0e8ffe1158"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{voucher}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="750" y="0" width="52" height="20" uuid="d1290b90-d2f2-4f55-ab47-9852f9cf5503"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lcNumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="668" y="0" width="82" height="20" uuid="fd734666-96ec-4a1b-9506-24cbfe7ad53d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{narration}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="649" y="30" width="114" height="20" uuid="5ce8d3bf-c23b-403e-821d-10ac6c649086"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="763" y="30" width="39" height="20" uuid="4eb51a66-ad9c-4b1a-9f95-ec38d738b9f9"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="8"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="79" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="569" y="8" width="86" height="15" uuid="24f2ed47-b31d-43be-b7bb-bd917b492bef"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+					<paragraph rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="542" y="9" width="25" height="13" uuid="eab721ed-8a4c-42e3-939b-5648e489deac"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currencyParam}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="567" y="6" width="88" height="1" uuid="320dac93-7d52-44f9-aab8-be12c022975c"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="474" y="9" width="68" height="13" uuid="7edce511-dcd1-46c9-934e-18accf04c046"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Total Amount: ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="567" y="24" width="88" height="1" uuid="6d945954-d372-4233-8f6c-690bf9aca890"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

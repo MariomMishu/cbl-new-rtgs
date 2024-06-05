@@ -1,0 +1,120 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: city-rtgs
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.200.136:1521/NUTEST
+    #    url: jdbc:oracle:thin:@192.168.200.59:1624/TESTBACH
+    #    username: RTGS_DEV
+    #  password: city12345
+    username: CBLRTGS_BKP
+    password: City12345
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: GMT+6
+#====================Start Database Config=======================================
+#datasource.driver=oracle.jdbc.OracleDriver
+#datasource.url=jdbc:oracle:thin:@192.168.200.59:1624/TESTBACH
+#datasource.username=RTGS_DEV
+#datasource.password=city12345
+#======================End Database Config=======================================
+#====================== Start App Config=======================================
+app:
+  access:
+    token:
+      expire:
+        time: 30
+  logger:
+    trace: rtgsTraceLogger
+    error: rtgsErrorLogger
+    stp:
+      trace: stpTraceLogger
+      error: stpErrorLogger
+  forget:
+    password:
+      email:
+        url: http://10.10.114.134:8443/reset-password
+  core:
+    stp:
+      url: http://192.168.246.80:8000/GWClientSAService/GWClientSA/
+    stpg:
+      ip: 192.168.246.80
+      port: 8000
+
+  #====================== End App Config=======================================
+  #======================Start Soap Config ========================================
+soap:
+  service:
+    username: gs001 #rtgsnew
+    password: 1234 #Cbl@194rtgs
+  config:
+    api:
+      url: http://192.168.220.53:8080/axis2/services/CBLWebServices?wsdl
+    fi:
+      api:
+        url: http://192.168.220.53:8080/axis2/services/CBLFIWebServices?wsdl
+  #======================End Soap Config ========================================
+  #======================Start IB Config ========================================
+ib:
+  username: rtgs004
+  password: Abb@12345
+  #======================End IB Config ===========================================
+  #======================Start STP Config ========================================
+  #======================End STP Config ========================================
+  #======================Start CBS Config ========================================
+narration:
+  replace:
+    spchar: "[@,$,&,(,),-,.,<,>,',]"
+  cbs:
+    customer:
+      incoming: RTGS From $payerName$
+      outgoing: RTGS To $benName$
+      return: RTGS Return
+      reversal:
+        incoming: RTGS Reverse
+        outgoing: RTGS Reverse $benName$
+    bank:
+      incoming: RTGS From $payerBank$
+      outgoing: RTGS To $benBankBic$
+      reversal:
+        incoming: test
+        outgoing: RTGS Reverse $benBankBic$
+  #narration.replace.spchar=[@,$,&,(,),-,.,<,>,',]
+  #rtgs.charge.vat=RTGS Service Charge and VAT
+  #=RTGS Service Charge
+  #rtgs.vat=VAT on RTGS Service Charge
+  #cbs.narration.customer.incoming=RTGS From $payerName$
+  #cbs.narration.customer.outgoing=RTGS To $benName$
+  #cbs.narration.bank.incoming=RTGS From $payerBank$
+  #cbs.narration.bank.outgoing=RTGS To $benBankBic$
+  #cbs.reversal.narration.customer.incoming=RTGS Reverse
+  #cbs.reversal.narration.customer.outgoing=RTGS Reverse $benName$
+  #cbs.reversal.narration.bank.incoming= test
+  #cbs.reversal.narration.bank.outgoing=RTGS Reverse $benBankBic$
+  #cbs.narration.customer.return=RTGS Return
+  #======================End CBS Config ========================================
+  #======================Start Other Config ====================================
+  #account.replace.regex=[a-zA-Z\\ ]
+  #======================End Other Config ======================================
+  ################################################ Mail Config #################
+mail:
+  from:
+    address: city.rtgs@thecitybank.com
+  smtp:
+    host: appmail.thecitybank.com
+    port: 25
+    ssl:
+      trust: appmail.thecitybank.com
+    starttls:
+      enable: true

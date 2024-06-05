@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CustToCustTxnReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb753213-4631-4f93-8552-656ca3240ff4">
+	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.1" value="columnHeader"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="55"/>
+	<subDataset name="dataset1" uuid="9c184a0e-8431-4e05-ab24-b08b11659355"/>
+	<parameter name="BANK_NAME" class="java.lang.String"/>
+	<parameter name="currentDate" class="java.lang.String"/>
+	<parameter name="FROMDATE" class="java.lang.String"/>
+	<parameter name="TODATE" class="java.lang.String"/>
+	<field name="errorDate" class="java.lang.String"/>
+	<field name="originalMsgId" class="java.lang.String"/>
+	<field name="msgType" class="java.lang.String"/>
+	<field name="pacs004MsgId" class="java.lang.String"/>
+	<field name="errorCause" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="103" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="22" width="555" height="20" uuid="4b93a563-3ed5-4981-810c-af0818fc27d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Failed Transactions Notifications]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="118" y="0" width="318" height="22" uuid="c6889733-8017-40e5-be0f-f6445226e82f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{BANK_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="63" width="100" height="12" uuid="f626fda2-016e-438a-b12e-8ce582600365"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currentDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="63" width="69" height="12" uuid="cc21d33d-282c-4eb8-ad72-3a9e88c317e9"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generation Date :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="414" y="77" width="45" height="12" uuid="8515e040-5fc5-4bb2-865a-248ea00f062e"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FROMDATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="77" width="75" height="12" uuid="e73b68bb-e5ff-4212-a953-1de3fdf1378c"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generation Period:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="480" y="77" width="45" height="12" uuid="a58ec748-ec62-4955-8aa1-68b3b7e13069"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TODATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="458" y="77" width="22" height="12" uuid="c5c853b2-a88f-41b8-a0d6-7d37936c7cfe"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="0" width="68" height="17" uuid="c2b99b80-26a7-4514-a64e-349d8cc1ce4e"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Error Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="0" width="69" height="17" uuid="3fdbe93c-f976-476c-8987-2d2574285a55"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Message Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="16" height="17" uuid="3139d692-1581-4344-a144-ccf2992755d8"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="153" y="0" width="89" height="17" uuid="e76f488c-aaa6-48fc-b17a-0014cb15e4fd"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Original Message Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="0" width="88" height="17" uuid="73c57816-7878-4eb9-8e36-2b4d2f40e567"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Pacs.004 Message Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="166" height="17" uuid="454e2685-aced-460c-9185-42404edcb233"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="false"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Error Cause]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="0" y="0" width="16" height="17" uuid="4893a827-e66f-47d8-a461-9d4948c44253"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="0" width="68" height="17" uuid="84a73400-ca7e-479b-bd09-fcc6bd421c99"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{errorDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="0" width="69" height="17" uuid="b8359785-16d2-4ee7-ad58-b0c1c2efcf49"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{msgType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="153" y="0" width="89" height="17" uuid="36c340cc-3fd1-4aa6-80f8-5732ac09f3a6"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{originalMsgId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="0" width="88" height="17" uuid="92af837d-116d-4bd4-8a9a-917b7751181a"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pacs004MsgId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="166" height="17" uuid="3875fbbb-dca6-4022-a029-49e2ef988ca7"/>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{errorCause}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="48" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="79" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="496" height="1" uuid="531a72b0-c720-476f-af20-701574ae75fa"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>
